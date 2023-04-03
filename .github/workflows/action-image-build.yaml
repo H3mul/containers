@@ -1,0 +1,142 @@
+---
+name: "Action: Image Build"
+
+on:
+  workflow_call:
+    inputs:
+      imagesToBuild:
+        description: |-
+          Pass a json string with the images and builds to build. e.g.:
+            [
+              {
+                "app": "sonarr",
+                "build": "main"
+              },
+              {
+                "app": "sonarr",
+                "build": "develop"
+              }
+            ]
+        required: false
+        type: string
+        default: ''
+
+      pushImages:
+        required: false
+        default: 'false'
+        type: string
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    if: inputs.imagesToBuild != '' && inputs.imagesToBuild != '[]'
+    strategy:
+      matrix:
+        image: ["${{ fromJson(inputs.imagesToBuild) }}"]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Setup Tools
+        shell: bash
+        run: sudo apt-get install -y moreutils jo
+
+      - name: Setup workflow Variables
+        id: vars
+        shell: bash
+        run: |-
+          set -x
+
+          metadata_file="./apps/${{ matrix.image.app }}/.ci/metadata.yaml"
+          metadata=$(yq '' -o json ${metadata_file})
+
+          echo "build_context=./apps/${{ matrix.image.app }}" >> $GITHUB_OUTPUT
+
+          echo "build_label_type=org.opencontainers.image" >> $GITHUB_OUTPUT
+          echo "build_date=$(date --rfc-3339=seconds --utc)" >> $GITHUB_OUTPUT
+
+
+          upstream_repo=$(jq --raw-output '.upstream.github.repo' <<< "${metadata}")
+          build_upstream_version=$(curl -s "https://api.github.com/repos/${upstream_repo}/releases/latest" | jq -r '.tag_name') && \
+              echo "build_upstream_version=${build_upstream_version}" >> $GITHUB_OUTPUT
+
+          echo "build_tag_rolling=${{ matrix.image.app }}:rolling" >> $GITHUB_OUTPUT
+          echo "build_tag_version=${{ matrix.image.app }}:${build_upstream_version}" >> $GITHUB_OUTPUT
+
+          if test -f "./apps/${{ matrix.image.app }}/${{ matrix.image.buildnel }}/Dockerfile"; then
+              echo "build_dockerfile=./apps/${{ matrix.image.app }}/${{ matrix.image.buildnel }}/Dockerfile" >> $GITHUB_OUTPUT
+          else
+              echo "build_dockerfile=./apps/${{ matrix.image.app }}/Dockerfile" >> $GITHUB_OUTPUT
+          fi
+
+          build_config=$(jq --arg build "${{ matrix.image.build }}" '.builds | .[] | select(.name == $build)' <<< "${metadata}")
+          build_platforms=$(jq --raw-output '.platforms | join(",")' <<< "${build_config}") && \
+              echo "build_platforms=${build_platforms}" >> $GITHUB_OUTPUT
+
+          build_args=$(jq '.args' <<< "${build_config}" | \
+                        jq --arg version "${build_upstream_version}" \
+                           --arg build "${{ matrix.image.build }}" \
+                          '. + {VERSION: $version, BUILD: $build}' | \
+                        jq --raw-output 'to_entries | map("\(.key)=\(.value)") | .[]' )
+
+          echo "build_args<<EOF" >> $GITHUB_OUTPUT
+          echo "${build_args}" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          repo_owner=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]') && \
+            echo "repo_owner=${repo_owner}" >> $GITHUB_OUTPUT
+
+      - name: Setup CUE
+        uses: cue-lang/setup-cue@0be332bb74c8a2f07821389447ba3163e2da3bfb
+
+      - name: Validate image metadata
+        shell: bash
+        run: cue vet --schema '#Spec' ${metadata_file} ./metadata.rules.cue
+
+      - name: Setup Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Setup GHCR
+        if: ${{ inputs.pushImages == 'true' }}
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build all platforms
+        id: release
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |-
+            ${{ steps.vars.outputs.build_args }}
+          labels: |-
+            ${{ steps.vars.outputs.build_label_type }}.created="${{ steps.vars.outputs.build_date }}"
+            ${{ steps.vars.outputs.build_label_type }}.title="${{ matrix.image.app }} (${{ matrix.image.build }})"
+            ${{ steps.vars.outputs.build_label_type }}.version="${{ steps.vars.outputs.build_upstream_version }}"
+            ${{ steps.vars.outputs.build_label_type }}.revision="${{ github.sha }}"
+          context: ${{ steps.vars.outputs.build_context }}
+          platforms: ${{ steps.vars.outputs.build_platforms }}
+          file: ${{ steps.vars.outputs.build_dockerfile }}
+          push: ${{ inputs.pushImages == 'true' }}
+          tags: |-
+            ghcr.io/${{ steps.vars.outputs.repo_owner }}/${{ steps.vars.outputs.build_tag_rolling }}
+            ghcr.io/${{ steps.vars.outputs.repo_owner }}/${{ steps.vars.outputs.build_tag_version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Summarize matrix https://github.community/t/status-check-for-a-matrix-jobs/127354/7
+  build_success:
+    name: Build matrix success
+    runs-on: ubuntu-latest
+    needs:
+      - build-and-test
+    if: ${{ always() }}
+    steps:
+      - name: Check build matrix status
+        if: ${{ (inputs.imagesToBuild != '' && inputs.imagesToBuild != '[]') && (needs.build-and-test.result != 'success') }}
+        run: exit 1

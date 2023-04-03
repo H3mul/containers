@@ -39,12 +39,9 @@ RUN pip3 install ansible==${ANSIBLE_VERSION}
 # From linuxserver image:
 # https://github.com/linuxserver/docker-netbootxyz/blob/03cbacdade5f81870d71d10a91c065237ed5665d/Dockerfile
 
-ARG TAG
+ARG VERSION
 
-RUN if [ -z ${TAG} ]; then \
-        TAG=$(curl -sX GET "https://api.github.com/repos/netbootxyz/netboot.xyz/releases/latest" | jq -r '.tag_name'); \
-    fi && \
-    wget https://api.github.com/repos/netbootxyz/netboot.xyz/zipball/${TAG} -O repo.zip && \
+RUN wget https://api.github.com/repos/netbootxyz/netboot.xyz/zipball/${VERSION} -O repo.zip && \
     unzip repo.zip && \
     mv netbootxyz-netboot.xyz-* /app && \
     ls -la /app
