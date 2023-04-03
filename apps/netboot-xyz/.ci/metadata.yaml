@@ -1,0 +1,11 @@
+app: netboot-xyz
+upstream:
+  github:
+    repo: netbootxyz/netboot.xyz
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64
+    args:
+      BOOT_DOMAIN: netboot.hemul.net
