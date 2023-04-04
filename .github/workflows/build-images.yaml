@@ -55,7 +55,7 @@ jobs:
           output="$(jo -a ${changes_array[*]})"
           echo "changes=${output}" >> $GITHUB_OUTPUT
   images-build:
-    uses: h3mul/containers/.github/workflows/action-image-build.yaml@master
+    uses: ./.github/workflows/action-image-build.yaml
     needs:
       - generate-build-matrix
     with:
