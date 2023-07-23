@@ -1,0 +1,5 @@
+app: mysql-init
+builds:
+  - name: main
+    platforms:
+      - linux/amd64

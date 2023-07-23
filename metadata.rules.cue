@@ -2,7 +2,7 @@ import "encoding/yaml"
 
 #Spec: {
 	app:  #NonEmptyString
-	upstream: #Upstream
+	upstream?: #Upstream
 	builds: [...#Build]
 }
 
