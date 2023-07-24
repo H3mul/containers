@@ -39,6 +39,6 @@ for dbname in ${INIT_MYSQL_DBNAME}; do
     printf "\e[1;32m%-6s\e[m\n" "Create Database ${dbname} ..."
     mysql -e "CREATE DATABASE IF NOT EXISTS ${dbname};"
 
-    printf "\e[1;32m%-6s\e[m\n" "Update User Privileges on Database ..."
-    mysql -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${INIT_MYSQL_USER}'@'localhost';"
+    printf "\e[1;32m%-6s\e[m\n" "Update User Privileges on Database ${dbname} ..."
+    mysql -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${INIT_MYSQL_USER}'@'localhost'; FLUSH PRIVILEGES;"
 done
