@@ -30,9 +30,11 @@ user_exists=$(\
 if [[ -z "${user_exists}" ]]; then
     printf "\e[1;32m%-6s\e[m\n" "Create User ${INIT_MYSQL_USER} ..."
     mysql -e "CREATE USER IF NOT EXISTS '${INIT_MYSQL_USER}'@'localhost' IDENTIFIED BY '${INIT_MYSQL_PASS}';"
+    mysql -e "CREATE USER IF NOT EXISTS '${INIT_MYSQL_USER}'@'%' IDENTIFIED BY '${INIT_MYSQL_PASS}';"
 else
     printf "\e[1;32m%-6s\e[m\n" "Update password for user ${INIT_MYSQL_USER} ..."
     mysql -e "ALTER USER '${INIT_MYSQL_USER}'@'localhost' IDENTIFIED BY '${INIT_MYSQL_PASS}';"
+    mysql -e "ALTER USER '${INIT_MYSQL_USER}'@'%' IDENTIFIED BY '${INIT_MYSQL_PASS}';"
 fi
 
 for dbname in ${INIT_MYSQL_DBNAME}; do
@@ -41,4 +43,5 @@ for dbname in ${INIT_MYSQL_DBNAME}; do
 
     printf "\e[1;32m%-6s\e[m\n" "Update User Privileges on Database ${dbname} ..."
     mysql -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${INIT_MYSQL_USER}'@'localhost'; FLUSH PRIVILEGES;"
+    mysql -e "GRANT ALL PRIVILEGES ON ${dbname}.* TO '${INIT_MYSQL_USER}'@'%'; FLUSH PRIVILEGES;"
 done
