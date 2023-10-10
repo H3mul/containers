@@ -1,0 +1,49 @@
+name: "Full Image Rebuild"
+
+on:
+  schedule:
+    - cron: 0 0 * * 0
+
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/**"
+
+jobs:
+  generate-build-matrix:
+    name: Generate matrix for building images
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.get-images.outputs.images }}
+    steps:
+      - name: Install tools
+        run: sudo apt-get install moreutils jo
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Fetch images
+        id: get-images
+        shell: bash
+        run: |
+          set -x
+          declare -a images_array=()
+          for app in $(ls ./apps); do
+            while read -r build; do
+              images="$(jo app="$app" build="$build")"
+              images_array+=($images)
+            done < <(yq -r '.builds[] | .name' "./apps/$app/.ci/metadata.yaml")
+          done
+          output="$(jo -a ${images_array[*]})"
+          echo "images=${output}" >> $GITHUB_OUTPUT
+  images-build:
+    uses: ./.github/workflows/action-image-build.yaml
+    needs:
+      - generate-build-matrix
+    with:
+      imagesToBuild: "${{ needs.generate-build-matrix.outputs.matrix }}"
+      pushImages: "true"
+    secrets: inherit

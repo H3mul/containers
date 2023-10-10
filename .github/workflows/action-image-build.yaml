@@ -61,7 +61,7 @@ jobs:
           apkbuild=$(jq --raw-output '.upstream.apkbuild' <<< "${metadata}")
           github_repo=$(jq --raw-output '.upstream.github.repo' <<< "${metadata}")
           if [ "$apkbuild" != "null" ]; then
-            build_upstream_version=$(curl -s $apkbuild | grep -oP "pkgver=\K\S*$") && \
+            build_upstream_version=$(curl -s $apkbuild | grep -oP "pkgver=\K\S*$")
           elif [ "$github_repo" != "null" ]; then
             build_upstream_version=$(curl -s "https://api.github.com/repos/${github_repo}/releases/latest" | jq -r '.tag_name')
           else
