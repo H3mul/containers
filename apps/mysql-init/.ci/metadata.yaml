@@ -1,4 +1,6 @@
 app: mysql-init
+upstream:
+  apkbuild: https://git.alpinelinux.org/aports/plain/main/mariadb/APKBUILD
 builds:
   - name: main
     platforms:
