@@ -58,10 +58,16 @@ jobs:
           echo "build_label_type=org.opencontainers.image" >> $GITHUB_OUTPUT
           echo "build_date=$(date --rfc-3339=seconds --utc)" >> $GITHUB_OUTPUT
 
-
-          upstream_repo=$(jq --raw-output '.upstream.github.repo' <<< "${metadata}")
-          build_upstream_version=$(curl -s "https://api.github.com/repos/${upstream_repo}/releases/latest" | jq -r '.tag_name') && \
-              echo "build_upstream_version=${build_upstream_version}" >> $GITHUB_OUTPUT
+          apkbuild=$(jq --raw-output '.upstream.apkbuild' <<< "${metadata}")
+          github_repo=$(jq --raw-output '.upstream.github.repo' <<< "${metadata}")
+          if [ "$apkbuild" != "null" ]; then
+            build_upstream_version=$(curl -s $apkbuild | grep -oP "pkgver=\K\S*$") && \
+          elif [ "$github_repo" != "null" ]; then
+            build_upstream_version=$(curl -s "https://api.github.com/repos/${github_repo}/releases/latest" | jq -r '.tag_name')
+          else
+            build_upstream_version=null
+          fi
+          echo "build_upstream_version=${build_upstream_version}" >> $GITHUB_OUTPUT
 
           echo "build_tag_rolling=${{ matrix.image.app }}:rolling" >> $GITHUB_OUTPUT
           echo "build_tag_version=${{ matrix.image.app }}:${build_upstream_version}" >> $GITHUB_OUTPUT

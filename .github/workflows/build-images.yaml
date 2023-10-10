@@ -43,6 +43,7 @@ jobs:
         id: get-changed
         shell: bash
         run: |
+          set -x
           declare -a changes_array=()
           while read -r app
           do

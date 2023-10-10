@@ -1,0 +1,7 @@
+app: ansible-run
+upstream:
+  apkbuild: https://git.alpinelinux.org/aports/plain/community/ansible/APKBUILD
+builds:
+  - name: main
+    platforms:
+      - linux/amd64

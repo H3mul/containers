@@ -1,0 +1,1 @@
+Install ansible galaxy prerequisites, run a playbook and exit
