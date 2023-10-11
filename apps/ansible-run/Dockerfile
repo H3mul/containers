@@ -4,7 +4,7 @@ ARG TARGETPLATFORM
 ARG VERSION
 ARG CHANNEL
 
-RUN apk add --no-cache bash ansible
+RUN apk add --no-cache bash ansible git openssh
 
 COPY entrypoint.sh /entrypoint.sh
 
