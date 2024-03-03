@@ -48,7 +48,7 @@ jobs:
         id: vars
         shell: bash
         run: |-
-          set -x
+          set -xeEo pipefail
 
           metadata_file="./apps/${{ matrix.image.app }}/.ci/metadata.yaml"
           metadata=$(yq '' -o json ${metadata_file})
