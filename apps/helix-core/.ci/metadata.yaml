@@ -1,0 +1,5 @@
+app: helix-core
+builds:
+  - name: main
+    platforms:
+      - linux/amd64
