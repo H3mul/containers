@@ -6,7 +6,7 @@ import "encoding/yaml"
     builds: [...#Build]
 }
 
-#Upstream: #GithubUpstream | #AlpineLinuxUpstream
+#Upstream: #GithubUpstream | #AlpineLinuxUpstream | #UbuntuPackageUpstream
 
 #AlpineLinuxUpstream: {
 	apkbuild: #NonEmptyString
@@ -15,6 +15,13 @@ import "encoding/yaml"
 #GithubUpstream: {
     github: {
         repo: #NonEmptyString
+    }
+}
+
+#UbuntuPackageUpstream: {
+    ubuntu: {
+        package: #NonEmptyString
+        releases: #NonEmptyString
     }
 }
 
