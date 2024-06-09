@@ -67,7 +67,7 @@ jobs:
           elif [ "$github_repo" != "null" ]; then
             build_upstream_version=$(curl -s "https://api.github.com/repos/${github_repo}/releases/latest" | jq -r '.tag_name')
           elif [ "$ubuntu_package_releases" != "null" ]; then
-            build_upstream_version=$(curl -s "$ubuntu_package_releases" | awk "/^Package: $ubuntu_package/,/Version:/" | grep -oP "^Version:\s*\K.*$" | sort -r | head -n 1)
+            build_upstream_version=$(curl -s "$ubuntu_package_releases" | awk "/^Package: $ubuntu_package/,/Version:/" | grep 'Version:' | sed -e 's/^Version:\s*\(.*\)~.*$/\1/' | sort -r | head -n 1)
           else
             build_upstream_version=null
           fi
