@@ -1,0 +1,9 @@
+app: home-assistant
+upstream:
+  github:
+    repo: home-assistant/core
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64
