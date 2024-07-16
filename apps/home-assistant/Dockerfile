@@ -39,9 +39,10 @@ RUN \
         ffmpeg \
         git \
         jq \
-        iputils \
+        # iputils \
         libcap \
         libturbojpeg \
+        libjpeg-turbo \
         libstdc++ \
         libxslt \
         mariadb-connector-c \
