@@ -28,6 +28,7 @@ WORKDIR /app
 RUN \
     apk add --no-cache \
         bash \
+        binutils \
         bluez \
         bluez-deprecated \
         bluez-libs \
@@ -39,10 +40,9 @@ RUN \
         ffmpeg \
         git \
         jq \
-        # iputils \
         libcap \
-        libturbojpeg \
-        libjpeg-turbo \
+        libjpeg-turbo-dev \
+        libpcap-dev \
         libstdc++ \
         libxslt \
         mariadb-connector-c \
