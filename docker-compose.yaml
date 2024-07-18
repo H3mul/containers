@@ -1,0 +1,8 @@
+services:
+  hass-test:
+    build:
+      context: ./apps/home-assistant/.
+      args:
+        VERSION: 2024.7.2
+    # environment:
+    #   LD_LIBRARY_PATH: /usr/lib
