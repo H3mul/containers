@@ -1,7 +1,8 @@
 app: home-assistant
-upstream:
-  github:
-    repo: home-assistant/core
+version: 2024.7.3
+# upstream:
+#   github:
+#     repo: home-assistant/core
 
 builds:
   - name: main

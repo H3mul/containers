@@ -1,8 +1,5 @@
 app: helix-core
-upstream:
-  ubuntu:
-    package: helix-p4d
-    releases: https://package.perforce.com/apt/ubuntu/dists/jammy/release/binary-amd64/Packages
+version: 2024.1-2625008
 builds:
   - name: main
     platforms:

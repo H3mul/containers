@@ -58,19 +58,7 @@ jobs:
           echo "build_label_type=org.opencontainers.image" >> $GITHUB_OUTPUT
           echo "build_date=$(date --rfc-3339=seconds --utc)" >> $GITHUB_OUTPUT
 
-          apkbuild=$(jq --raw-output '.upstream.apkbuild' <<< "${metadata}")
-          github_repo=$(jq --raw-output '.upstream.github.repo' <<< "${metadata}")
-          ubuntu_package_releases=$(jq --raw-output '.upstream.ubuntu.releases' <<< "${metadata}")
-          ubuntu_package=$(jq --raw-output '.upstream.ubuntu.package' <<< "${metadata}")
-          if [ "$apkbuild" != "null" ]; then
-            build_upstream_version=$(curl -s $apkbuild | grep -oP "pkgver=\K\S*$")
-          elif [ "$github_repo" != "null" ]; then
-            build_upstream_version=$(curl -s "https://api.github.com/repos/${github_repo}/releases/latest" | jq -r '.tag_name')
-          elif [ "$ubuntu_package_releases" != "null" ]; then
-            build_upstream_version=$(curl -s "$ubuntu_package_releases" | awk "/^Package: $ubuntu_package/,/Version:/" | grep 'Version:' | sed -e 's/^Version:\s*\(.*\)~.*$/\1/' | sort -r | head -n 1)
-          else
-            build_upstream_version=null
-          fi
+          build_upstream_version=$(jq --raw-output '.version' <<< "${metadata}")
           echo "build_upstream_version=${build_upstream_version}" >> $GITHUB_OUTPUT
 
           echo "build_tag_rolling=${{ matrix.image.app }}:rolling" >> $GITHUB_OUTPUT

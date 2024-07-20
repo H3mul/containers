@@ -1,8 +1,5 @@
 app: netboot-xyz
-upstream:
-  github:
-    repo: netbootxyz/netboot.xyz
-
+version: 2.0.80
 builds:
   - name: main
     platforms:

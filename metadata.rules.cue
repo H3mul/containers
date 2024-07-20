@@ -2,27 +2,8 @@ import "encoding/yaml"
 
 #Spec: {
     app:  #NonEmptyString
-    upstream?: #Upstream
+    version: #NonEmptyString
     builds: [...#Build]
-}
-
-#Upstream: #GithubUpstream | #AlpineLinuxUpstream | #UbuntuPackageUpstream
-
-#AlpineLinuxUpstream: {
-	apkbuild: #NonEmptyString
-}
-
-#GithubUpstream: {
-    github: {
-        repo: #NonEmptyString
-    }
-}
-
-#UbuntuPackageUpstream: {
-    ubuntu: {
-        package: #NonEmptyString
-        releases: #NonEmptyString
-    }
 }
 
 #Build: {
