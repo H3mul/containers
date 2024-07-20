@@ -1,4 +1,4 @@
-name: "Rebuild images on commit"
+name: "Build affected images on commit"
 
 on:
   push:

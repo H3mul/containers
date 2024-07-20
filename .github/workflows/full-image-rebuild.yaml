@@ -1,9 +1,6 @@
-name: "Full Image Rebuild"
+name: "Full Image Library Rebuild"
 
 on:
-  schedule:
-    - cron: 0 0 * * 0
-
   push:
     branches:
       - master
