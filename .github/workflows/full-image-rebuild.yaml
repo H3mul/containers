@@ -6,6 +6,8 @@ on:
       - master
     paths:
       - ".github/**"
+      - "!.github/workflows/renovate.yaml"
+      - "!.github/renovate.json5"
 
 jobs:
   generate-build-matrix:

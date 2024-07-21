@@ -1,0 +1,29 @@
+{
+    "platform": "github",
+    "autodiscover": false,
+    "dryRun": false,
+    "printConfig": true,
+    "extends": [
+        "config:recommended",
+        ":automergeMinor",
+        // ":automergePr",
+        // ":disableRateLimiting",
+        ":docker"
+    ],
+    "ignoreTests": true,
+    "includePaths": [
+        ".github/renovate.json5",
+        ".github/workflows/**",
+        "apps/**"
+    ],
+    "customManagers": [
+        {
+            "customType": "regex",
+            "description": "Update pinned metadata versions",
+            "fileMatch": ["(^|/)metadata\\.yaml$"],
+            "matchStrings": [
+                "# renovate: datasource=(?<datasource>.+?) depName=(?<depName>.+?)(?: (?:packageName)=(?<packageName>.+?))?(?: versioning=(?<versioning>.+?))?\\s*-?\\s*plugin: ('|\")?.*:(?<currentValue>.+?)('|\")?\\s"
+            ]
+        }
+    ]
+}
