@@ -33,5 +33,16 @@
                 'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
             ],
         },
-    ],
+        {
+            customType: 'regex',
+            "description": "Update pinned dockerfile arg/env versions",
+            fileMatch: [
+                '(^|/)Dockerfile$',
+                '(^|/)Dockerfile\\.[^/]*$',
+            ],
+            matchStrings: [
+                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s",
+            ]
+        },
+    ]
 }

@@ -1,5 +1,8 @@
 app: netboot-xyz
+
+# renovate: datasource=github-releases depName=netbootxyz/netboot.xyz
 version: 2.0.80
+
 builds:
   - name: main
     platforms:
