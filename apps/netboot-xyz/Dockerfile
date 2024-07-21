@@ -34,7 +34,7 @@ RUN \
     gettext-base \
     toilet
 
-RUN pip3 install ansible==${ANSIBLE_VERSION}
+RUN pip3 install ansible==${ANSIBLE_VERSION} --break-system-packages
 
 # From linuxserver image:
 # https://github.com/linuxserver/docker-netbootxyz/blob/03cbacdade5f81870d71d10a91c065237ed5665d/Dockerfile
