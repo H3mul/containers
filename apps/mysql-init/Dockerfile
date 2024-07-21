@@ -4,7 +4,7 @@ ARG TARGETPLATFORM
 ARG VERSION
 ARG CHANNEL
 
-RUN apk add --no-cache ca-certificates mysql-client bash
+RUN apk add --no-cache ca-certificates mysql-client=${VERSION} bash
 
 COPY entrypoint.sh /entrypoint.sh
 

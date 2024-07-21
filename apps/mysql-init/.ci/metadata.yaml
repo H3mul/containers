@@ -1,5 +1,8 @@
 app: mysql-init
-version: 11.4.2
+
+# renovate: datasource=repology depName=alpine_3_20/mariadb versioning=loose
+version: 10.11.8-r0
+
 builds:
   - name: main
     platforms:
