@@ -1,40 +1,37 @@
 {
-    "extends": [
-        "config:best-practices",
-        ":automergeMinor",
-        ":automergePr",
-        ":disableRateLimiting",
-        ":docker"
+    extends: [
+        'config:best-practices',
+        ':automergeMinor',
+        ':automergePr',
+        ':disableRateLimiting',
+        ':docker',
     ],
-    "platform": "github",
-    "autodiscover": false,
-    "dryRun": false,
-    "printConfig": false,
-    "dependencyDashboardAutoclose": true,
-    "automerge": true,
-    "platformAutomerge": true,
-    "baseBranches": [ "master" ],
-    "ignoreTests": true,
-    "includePaths": [
-        ".github/renovate.json5",
-        ".github/workflows/**",
-        "apps/**"
+    platform: 'github',
+    autodiscover: false,
+    dryRun: null,
+    printConfig: false,
+    dependencyDashboardAutoclose: true,
+    automerge: true,
+    platformAutomerge: true,
+    baseBranches: [
+        'master',
     ],
-    "customManagers": [
+    ignoreTests: true,
+    includePaths: [
+        '.github/renovate.json5',
+        '.github/workflows/**',
+        'apps/**',
+    ],
+    customManagers: [
         {
-            "customType": "regex",
-            "description": "Update pinned metadata versions",
-            "fileMatch": ["(^|/)metadata\\.yaml$"],
-            "matchStrings": [
-                // example:
-                // # renovate: datasource=github-releases depName=hashicorp/terraform versioning=hashicorp
-                // ENV DEFAULT_TERRAFORM_VERSION=x.x.x
-                // # renovate: datasource=github-releases depName=open-policy-agent/conftest
-                // ARG DEFAULT_CONFTEST_VERSION=x.x.x
-                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s",
+            customType: 'regex',
+            description: 'Update pinned metadata versions',
+            fileMatch: [
+                '(^|/)metadata\\.yaml$',
             ],
-            // "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
-            // "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)",
-        }
-    ]
+            matchStrings: [
+                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
+            ],
+        },
+    ],
 }
