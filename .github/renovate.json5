@@ -1,0 +1,19 @@
+{
+    "platform": "github",
+    "autodiscover": false,
+    "dryRun": false,
+    "printConfig": true,
+    "extends": [
+        "config:recommended",
+        ":automergeMinor",
+        // ":automergePr",
+        // ":disableRateLimiting",
+        ":docker"
+    ],
+    "ignoreTests": true,
+    "includePaths": [
+        ".github/renovate.json5",
+        ".github/workflows/**",
+        "apps/**"
+    ]
+}
