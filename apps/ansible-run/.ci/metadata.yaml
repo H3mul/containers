@@ -1,5 +1,8 @@
 app: ansible-run
-version: v2.17.2
+
+# renovate: datasource=repology depName=alpine_3_20/ansible versioning=loose
+version: 9.5.1-r0
+
 builds:
   - name: main
     platforms:
