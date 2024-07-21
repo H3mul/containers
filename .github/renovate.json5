@@ -1,15 +1,19 @@
 {
+    "extends": [
+        "config:best-practices",
+        ":automergeMinor",
+        ":automergePr",
+        ":disableRateLimiting",
+        ":docker"
+    ],
     "platform": "github",
     "autodiscover": false,
     "dryRun": false,
-    "printConfig": true,
-    "extends": [
-        "config:recommended",
-        ":automergeMinor",
-        // ":automergePr",
-        // ":disableRateLimiting",
-        ":docker"
-    ],
+    "printConfig": false,
+    "dependencyDashboardAutoclose": true,
+    "automerge": true,
+    "platformAutomerge": true,
+    "baseBranches": [ "master" ],
     "ignoreTests": true,
     "includePaths": [
         ".github/renovate.json5",
@@ -22,8 +26,15 @@
             "description": "Update pinned metadata versions",
             "fileMatch": ["(^|/)metadata\\.yaml$"],
             "matchStrings": [
-                "# renovate: datasource=(?<datasource>.+?) depName=(?<depName>.+?)(?: (?:packageName)=(?<packageName>.+?))?(?: versioning=(?<versioning>.+?))?\\s*-?\\s*plugin: ('|\")?.*:(?<currentValue>.+?)('|\")?\\s"
-            ]
+                // example:
+                // # renovate: datasource=github-releases depName=hashicorp/terraform versioning=hashicorp
+                // ENV DEFAULT_TERRAFORM_VERSION=x.x.x
+                // # renovate: datasource=github-releases depName=open-policy-agent/conftest
+                // ARG DEFAULT_CONFTEST_VERSION=x.x.x
+                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s",
+            ],
+            "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}",
+            "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)",
         }
     ]
 }

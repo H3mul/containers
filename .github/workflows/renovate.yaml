@@ -9,6 +9,7 @@ on:
       - master
     paths:
       - ".github/workflows/renovate.yaml"
+      - ".github/renovate.json5"
 
 jobs:
   renovate:
