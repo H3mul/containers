@@ -1,4 +1,8 @@
 services:
+  code-spaces-test:
+    build:
+      context: ./apps/code-spaces/.
+
   hass-test:
     build:
       context: ./apps/home-assistant/.
