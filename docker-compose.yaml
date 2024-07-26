@@ -1,7 +1,10 @@
 services:
-  code-spaces-test:
+  code-space-test:
     build:
-      context: ./apps/code-spaces/.
+      context: ./apps/code-space/.
+    ports:
+      - 8022:22
+      - 8080:8080
 
   hass-test:
     build:

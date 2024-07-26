@@ -19,19 +19,24 @@ RUN pacman -Syyu --noconfirm && \
     cd .. && \
     rm -rf yay && \
     sudo -u ${USERNAME} yay -S --noconfirm \
+      chezmoi \
       code-server \
-      chezmoi && \
-    sudo -u ${USERNAME} chezmoi init $GH_USER
+      docker \
+      docker-compose \
+      htop \
+      openssh \
+      supervisor && \
+    sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && \
+    /usr/bin/ssh-keygen -A && \
+    sudo -u ${USERNAME} chezmoi init ${GH_USER} --force && \
+    sudo -u ${USERNAME} chezmoi update
+
+ENV VS_SERVER_PASSWORD "admin"
+ENV VS_SERVER_PORT "8080"
+ENV VS_SERVER_USER ${USERNAME}
+
+COPY supervisord.conf /etc/supervisord.conf
 
 WORKDIR  "/home/${USERNAME}"
 VOLUME [ "/home/${USERNAME}" ]
-
-# gpg keys
-# git ssh keys
-# chezmoi dotfiles
-# code server
-# utils
-
-COPY entrypoint.sh /entrypoint.sh
-
-CMD ["/entrypoint.sh"]
+CMD [ "/usr/bin/supervisord"]
