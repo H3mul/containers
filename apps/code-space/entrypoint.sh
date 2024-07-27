@@ -6,7 +6,7 @@ if id "${USERNAME}" ; then
     echo "User already exists: ${USERNAME}"
 else
     echo "Creating new sudo user ${USERNAME}"
-    useradd -G sudo -s /bin/bash -m "${USERNAME}"
+    useradd -G sudo -s ${USER_SHELL} -m "${USERNAME}"
     passwd -d "${USERNAME}"
 fi
 

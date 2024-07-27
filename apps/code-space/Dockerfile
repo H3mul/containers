@@ -30,6 +30,7 @@ RUN pacman -Syyu --noconfirm && \
     setcap cap_net_raw+p /usr/bin/ping
 
 ENV USERNAME "hemul"
+ENV USER_SHELL "/bin/zsh"
 ENV VS_SERVER_PASSWORD "admin"
 ENV VS_SERVER_PORT "8080"
 ENV VS_SERVER_USER ${USERNAME}
