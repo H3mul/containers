@@ -12,4 +12,14 @@ fi
 
 chown "${USERNAME}":"${USERNAME}" -R "/home/${USERNAME}"
 
+if [ ! -z ${CHEZMOI_GH_USER} ]; then
+    sudo -u "${USERNAME}" chezmoi init ${CHEZMOI_GH_USER} --force
+    sudo -u "${USERNAME}" chezmoi state reset
+    sudo -u "${USERNAME}" chezmoi update
+fi
+
+if [ -z ${VS_SERVER_USER} ]; then
+    export VS_SERVER_USER=${USERNAME}
+fi
+
 /usr/bin/supervisord
