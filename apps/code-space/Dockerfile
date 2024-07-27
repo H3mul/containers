@@ -26,7 +26,8 @@ RUN pacman -Syyu --noconfirm && \
       supervisor && \
     rm -rf /etc/sudoers.d/yay && \
     sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && \
-    /usr/bin/ssh-keygen -A
+    /usr/bin/ssh-keygen -A && \
+    setcap cap_net_raw+p /usr/bin/ping
 
 ENV USERNAME "hemul"
 ENV VS_SERVER_PASSWORD "admin"

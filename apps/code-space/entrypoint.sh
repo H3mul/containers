@@ -10,4 +10,6 @@ else
     passwd -d "${USERNAME}"
 fi
 
+chown "${USERNAME}":"${USERNAME}" -R "/home/${USERNAME}"
+
 /usr/bin/supervisord
