@@ -44,6 +44,7 @@ ENV VS_SERVER_PORT "8080"
 ENV VS_SERVER_USER ""
 
 COPY supervisord.conf /etc/supervisord.conf
+COPY xdg.sh /etc/profile.d/xdg.sh
 COPY entrypoint.sh /entrypoint.sh
 
 CMD [ "/entrypoint.sh"]
