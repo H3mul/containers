@@ -4,9 +4,9 @@ ARG TARGETPLATFORM
 ARG VERSION
 ARG CHANNEL
 
-ARG USERNAME "hemul"
-ARG CHEZMOI_GH_USER "h3mul"
-ARG USER_SHELL "/bin/zsh"
+ARG USERNAME="hemul"
+ARG CHEZMOI_GH_USER="h3mul"
+ARG USER_SHELL="/bin/zsh"
 
 RUN pacman -Syyu --noconfirm && \
     pacman -S --noconfirm git base-devel sudo && \
