@@ -4,6 +4,10 @@ ARG TARGETPLATFORM
 ARG VERSION
 ARG CHANNEL
 
+ARG USERNAME "hemul"
+ARG CHEZMOI_GH_USER "h3mul"
+ARG USER_SHELL "/bin/zsh"
+
 RUN pacman -Syyu --noconfirm && \
     pacman -S --noconfirm git base-devel sudo && \
     useradd -m yay && \
@@ -27,12 +31,12 @@ RUN pacman -Syyu --noconfirm && \
     rm -rf /etc/sudoers.d/yay && \
     sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && \
     /usr/bin/ssh-keygen -A && \
-    setcap cap_net_raw+p /usr/bin/ping
+    setcap cap_net_raw+p /usr/bin/ping && \
+    useradd -G sudo -s ${USER_SHELL} -m "${USERNAME}" && \
+    passwd -d "${USERNAME}" && \
+    sudo -u "${USERNAME}" chezmoi init ${CHEZMOI_GH_USER} --force && \
+    sudo -u "${USERNAME}" chezmoi update
 
-ENV USERNAME "guest"
-ENV CHEZMOI_GH_USER ""
-
-ENV USER_SHELL "/bin/zsh"
 ENV VS_SERVER_PASSWORD "admin"
 ENV VS_SERVER_PORT "8080"
 ENV VS_SERVER_USER ""
