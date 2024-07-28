@@ -26,6 +26,7 @@ RUN pacman -Syyu --noconfirm && \
       docker \
       docker-compose \
       htop \
+      rsync \
       openssh \
       supervisor && \
     rm -rf /etc/sudoers.d/yay && \
@@ -35,7 +36,8 @@ RUN pacman -Syyu --noconfirm && \
     useradd -G sudo -s ${USER_SHELL} -m "${USERNAME}" && \
     passwd -d "${USERNAME}" && \
     sudo -u "${USERNAME}" chezmoi init ${CHEZMOI_GH_USER} --force && \
-    sudo -u "${USERNAME}" chezmoi update
+    sudo -u "${USERNAME}" chezmoi update && \
+    rm -rf /home/"${USERNAME}" # Home dir is meant to be mounted
 
 ENV VS_SERVER_PASSWORD "admin"
 ENV VS_SERVER_PORT "8080"
