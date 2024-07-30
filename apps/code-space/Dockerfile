@@ -32,6 +32,7 @@ RUN pacman -Syyu --noconfirm && \
     rm -rf /etc/sudoers.d/yay && \
     sed -i 's/#PubkeyAuthentication.*$/PubkeyAuthentication yes/g' /etc/ssh/sshd_config && \
     sed -i 's/#AllowAgentForwarding.*$/AllowAgentForwarding yes/g' /etc/ssh/sshd_config && \
+    echo "StreamLocalBindUnlink yes" >> /etc/ssh/sshd_config && \
     /usr/bin/ssh-keygen -A && \
     setcap cap_net_raw+p /usr/bin/ping && \
     useradd -G sudo -s ${USER_SHELL} -m "${USERNAME}" && \
