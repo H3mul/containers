@@ -2,7 +2,7 @@
 # https://github.com/onedr0p/containers/blob/de2b6e8c3c4c5bc4d74b87e9b62c4c698e3cbed2/apps/home-assistant/Dockerfile
 
 
-FROM docker.io/library/python:3.12.6-alpine@sha256:e0e4d3db19333a970e7acfdcb8863efe065be6c3038ef5018694f98162bffec0
+FROM docker.io/library/python:3.12.6-alpine@sha256:7593fc658f7565d8e340714cb6219bfb0737d4b942034fe0f4cc9296a8b36a29
 
 ARG TARGETPLATFORM
 ARG VERSION
