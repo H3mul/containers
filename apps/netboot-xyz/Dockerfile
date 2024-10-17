@@ -1,7 +1,7 @@
 # From netboot xyz builder:
 # https://github.com/netbootxyz/netboot.xyz/blob/d09dd3916c6fff7914e096b9dd64c84d309dc24f/Dockerfile
 
-FROM ubuntu:24.04@sha256:6aef31f3f313fd13eac5fe5a78e79bd1cbd332f2a69ac920a675efbd2d1e1eef
+FROM ubuntu:24.04@sha256:d4f6f70979d0758d7a6f81e34a61195677f4f4fa576eaf808b79f17499fd93d1
 
 ENV DEBIAN_FRONTEND=noninteractive
 

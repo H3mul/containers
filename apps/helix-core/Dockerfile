@@ -1,4 +1,4 @@
-FROM ubuntu:24.04@sha256:6aef31f3f313fd13eac5fe5a78e79bd1cbd332f2a69ac920a675efbd2d1e1eef
+FROM ubuntu:24.04@sha256:d4f6f70979d0758d7a6f81e34a61195677f4f4fa576eaf808b79f17499fd93d1
 
 LABEL version="1.0"
 # LABEL maintainer="benjamin.hoffman.dev@gmail.com"
