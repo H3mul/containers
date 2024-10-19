@@ -1,7 +1,7 @@
 app: home-assistant
 
 # renovate: datasource=github-releases depName=home-assistant/core
-version: 2024.10.2
+version: 2024.10.3
 
 builds:
   - name: main
