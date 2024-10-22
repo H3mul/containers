@@ -88,7 +88,7 @@ jobs:
             echo "repo_owner=${repo_owner}" >> $GITHUB_OUTPUT
 
       - name: Setup CUE
-        uses: cue-lang/setup-cue@0be332bb74c8a2f07821389447ba3163e2da3bfb
+        uses: cue-lang/setup-cue@a93fa358375740cd8b0078f76355512b9208acb1
 
       - name: Validate image metadata
         shell: bash
