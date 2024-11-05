@@ -41,9 +41,10 @@ RUN pacman -Syyu --noconfirm && \
     sudo -u "${USERNAME}" chezmoi update && \
     rm -rf /home/"${USERNAME}" # Home dir is meant to be mounted
 
+ENV USERNAME ${USERNAME}
+ENV VS_SERVER_USER ${USERNAME}
 ENV VS_SERVER_PASSWORD "admin"
 ENV VS_SERVER_PORT "8080"
-ENV VS_SERVER_USER ""
 
 COPY supervisord.conf /etc/supervisord.conf
 COPY xdg.sh /etc/profile.d/xdg.sh
