@@ -23,8 +23,8 @@
         {
             customType: 'regex',
             description: 'Update pinned metadata versions',
-            fileMatch: [
-                '(^|/)metadata\\.yaml$',
+            managerFilePatterns: [
+                '/(^|/)metadata\\.yaml$/',
             ],
             matchStrings: [
                 'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
@@ -32,14 +32,14 @@
         },
         {
             customType: 'regex',
-            "description": "Update pinned dockerfile arg/env versions",
-            fileMatch: [
-                '(^|/)Dockerfile$',
-                '(^|/)Dockerfile\\.[^/]*$',
+            description: 'Update pinned dockerfile arg/env versions',
+            managerFilePatterns: [
+                '/(^|/)Dockerfile$/',
+                '/(^|/)Dockerfile\\.[^/]*$/',
             ],
             matchStrings: [
-                "renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s",
-            ]
+                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s',
+            ],
         },
-    ]
+    ],
 }
