@@ -1,6 +1,7 @@
 app: vintagestory
 
-version: 1.20.11
+# renovate: datasource=custom.vs-game
+version: 1.8.6
 
 builds:
   - name: main
