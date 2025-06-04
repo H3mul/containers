@@ -1,7 +1,7 @@
 # Based on:
 # https://github.com/Devidian/docker-vintagestory/blob/709b9c0070bdda41f391516937aeffcd66d574f7/Dockerfile
 
-FROM mcr.microsoft.com/dotnet/runtime:7.0
+FROM mcr.microsoft.com/dotnet/runtime:7.0@sha256:8cd26108e7a329458e5b84342816ae39b2b38bd041cfdc0b79b8cf1c0e0d376f
 
 ARG TARGETPLATFORM
 ARG VERSION
