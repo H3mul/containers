@@ -41,5 +41,49 @@
                 'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s',
             ],
         },
+        {
+            customType: "regex",
+            description: "Process Vintage Story mods",
+            fileMatch: ["(^|/)vintagestory(-\\w+)?/.*/mods\\.yaml$"],
+            matchStrings: [
+                "- id: (?<packageName>\\S+)\\n(?<indentation>\\s+)version: (?<currentValue>\\S+)"
+            ],
+            autoReplaceStringTemplate: "- id: {{{packageName}}}\n{{{indentation}}}version: {{{newValue}}}",
+            datasourceTemplate: "custom.vs-mods",
+            versioningTemplate: "semver-coerced"
+        },
+    ],
+
+    customDatasources: {
+        "vs-mods": {
+        defaultRegistryUrlTemplate: "https://mods.vintagestory.at/api/mod/{{packageName}}",
+        format: "json",
+        transformTemplates: [
+            '{"releases":[{"version": mod.releases[0].modversion, "releaseTimestamp": mod.releases[0].created}], "sourceUrl": "https://mods.vintagestory.at/" & mod.urlalias & "#tab-files"}'
+            ],
+        },
+        "vs-game": {
+        defaultRegistryUrlTemplate: "https://mods.vintagestory.at/api/gameversions",
+        format: "json",
+        transformTemplates: [
+            '{"releases":[ gameversions.{"version": name} ]}'
+        ],
+        },
+    },
+    packageRules: [
+        {
+            matchDatasources: ["custom.vs-mods"],
+            matchManagers: ["regex"],
+            semanticCommitScope: "vintage-story",
+            commitMessageTopic: "mod {{depName}}",
+            commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
+        },
+        {
+            matchDatasources: ["custom.vs-game"],
+            matchManagers: ["regex"],
+            semanticCommitScope: "vintage-story",
+            commitMessageTopic: "game version {{depName}}",
+            commitMessageExtra: "( {{currentVersion}} → {{newVersion}} )",
+        },
     ],
 }
