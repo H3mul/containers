@@ -13,3 +13,11 @@ services:
         VERSION: 2024.7.2
     # environment:
     #   LD_LIBRARY_PATH: /usr/lib
+
+  vintagestory:
+    build:
+      context: ./apps/vintagestory/.
+      args:
+        VERSION: 1.20.11
+    volumes:
+      - "${PWD}/apps/vintagestory/mods.yaml:/init/mods.yaml:ro"
