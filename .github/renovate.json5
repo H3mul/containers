@@ -19,6 +19,9 @@
         '.github/workflows/**',
         'apps/**',
     ],
+    ignoreDeps: [
+        'mcr.microsoft.com/dotnet/runtime',
+    ],
     customManagers: [
         {
             customType: 'regex',
@@ -27,7 +30,7 @@
                 '/(^|/)metadata\\.yaml$/',
             ],
             matchStrings: [
-                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
+                'renovate: datasource=(?<datasource>.*?)( depName=(?<depName>.*?))?( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
             ],
         },
         {
@@ -41,29 +44,9 @@
                 'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\s(ARG|ENV) .*?_VERSION=(?<currentValue>.*)\\s',
             ],
         },
-        {
-            customType: 'regex',
-            description: 'Process Vintage Story mods',
-            managerFilePatterns: [
-                '/(^|/)vintagestory(-\\w+)?/.*/mods\\.yaml$/',
-            ],
-            matchStrings: [
-                '- id: (?<packageName>\\S+)\\n(?<indentation>\\s+)version: (?<currentValue>\\S+)',
-            ],
-            autoReplaceStringTemplate: '- id: {{{packageName}}}\n{{{indentation}}}version: {{{newValue}}}',
-            datasourceTemplate: 'custom.vs-mods',
-            versioningTemplate: 'semver-coerced',
-        },
     ],
     customDatasources: {
-        'vs-mods': {
-            defaultRegistryUrlTemplate: 'https://mods.vintagestory.at/api/mod/{{packageName}}',
-            format: 'json',
-            transformTemplates: [
-                '{"releases":[{"version": mod.releases[0].modversion, "releaseTimestamp": mod.releases[0].created}], "sourceUrl": "https://mods.vintagestory.at/" & mod.urlalias & "#tab-files"}',
-            ],
-        },
-        'vs-game': {
+        'vintage-story': {
             defaultRegistryUrlTemplate: 'https://mods.vintagestory.at/api/gameversions',
             format: 'json',
             transformTemplates: [
@@ -71,28 +54,4 @@
             ],
         },
     },
-    packageRules: [
-        {
-            matchDatasources: [
-                'custom.vs-mods',
-            ],
-            matchManagers: [
-                'custom.regex',
-            ],
-            semanticCommitScope: 'vintage-story',
-            commitMessageTopic: 'mod {{depName}}',
-            commitMessageExtra: '( {{currentVersion}} → {{newVersion}} )',
-        },
-        {
-            matchDatasources: [
-                'custom.vs-game',
-            ],
-            matchManagers: [
-                'custom.regex',
-            ],
-            semanticCommitScope: 'vintage-story',
-            commitMessageTopic: 'game version {{depName}}',
-            commitMessageExtra: '( {{currentVersion}} → {{newVersion}} )',
-        },
-    ],
 }

@@ -1,6 +1,6 @@
 app: vintagestory
 
-# renovate: datasource=custom.vs-game
+# renovate: datasource=vintage-story
 version: 1.8.6
 
 builds:
