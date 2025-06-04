@@ -1,5 +1,3 @@
-import "encoding/yaml"
-
 #Spec: {
     app:  #NonEmptyString
     version: #NonEmptyString
