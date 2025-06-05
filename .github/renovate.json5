@@ -30,7 +30,7 @@
                 '/(^|/)metadata\\.yaml$/',
             ],
             matchStrings: [
-                'renovate: datasource=(?<datasource>.*?)( depName=(?<depName>.*?))?( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
+                'renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sversion: (?<currentValue>.*)\\s',
             ],
         },
         {
@@ -46,7 +46,7 @@
         },
     ],
     customDatasources: {
-        'vintage-story': {
+        'vintagestory': {
             defaultRegistryUrlTemplate: 'https://mods.vintagestory.at/api/gameversions',
             format: 'json',
             transformTemplates: [

@@ -1,6 +1,6 @@
 app: vintagestory
 
-# renovate: datasource=vintage-story
+# renovate: datasource=custom.vintagestory depName=vintagestory
 version: 1.8.6
 
 builds:

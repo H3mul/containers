@@ -21,3 +21,14 @@ services:
         VERSION: 1.20.11
     volumes:
       - "${PWD}/apps/vintagestory/mods.yaml:/init/mods.yaml:ro"
+
+  renovate:
+    image: renovate/renovate
+    command:
+      - "renovate"
+      - "--platform=local"
+    environment:
+      LOG_LEVEL: debug
+    working_dir: /renovate
+    volumes:
+      - ${PWD}:/renovate
