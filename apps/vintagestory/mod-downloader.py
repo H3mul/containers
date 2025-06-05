@@ -1,14 +1,6 @@
 # From:
 # https://github.com/stevewm/homelab/blob/e4d737e66de13f418f900e1039670e5054478046/kubernetes/apps/games/vintagestory/app/config/init/mods.py
 
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#     "jsonata-python",
-#     "pyyaml",
-#     "requests",
-# ]
-# ///
 import requests
 import yaml
 import os

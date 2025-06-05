@@ -13,6 +13,8 @@ ARG vs_version=${VERSION}
 # Todo: implement ${TARGETPLATFORM}
 ARG vs_os=linux-x64
 
+ENV COMPlus_EnableDiagnostics="0"
+
 ENV VS_DATA_PATH=/data
 ENV MODS_DIR=${VS_DATA_PATH}/Mods
 ENV MODS_FILE=/init/mods.yaml
@@ -21,6 +23,7 @@ WORKDIR /game
 
 RUN apt update && apt install tar wget python3-pip -y && \
     pip install --upgrade uv && \
+    uv pip install --system requests pyyaml jsonata-python && \
     wget "https://cdn.vintagestory.at/gamefiles/${vs_type}/vs_server_${vs_os}_${vs_version}.tar.gz" && \
     tar -xzvf "vs_server_${vs_os}_${vs_version}.tar.gz" && \
     rm "vs_server_${vs_os}_${vs_version}.tar.gz"
@@ -28,8 +31,8 @@ RUN apt update && apt install tar wget python3-pip -y && \
 COPY entrypoint.sh /entrypoint.sh
 COPY mod-downloader.py /init/mod-downloader.py
 
-EXPOSE 42420
+# Install the deps
 
-VOLUME ["${VS_DATA_PATH}"]
+EXPOSE 42420
 
 CMD ["/entrypoint.sh"]
