@@ -1,7 +1,7 @@
 app: ansible-run
 
 # renovate: datasource=repology depName=alpine_edge/ansible versioning=loose
-version: 11.6.0-r0
+version: 11.7.0-r0
 
 builds:
   - name: main
