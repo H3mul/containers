@@ -1,7 +1,7 @@
 app: vintagestory
 
 # renovate: datasource=custom.vintagestory depName=vintagestory
-version: 1.20.12
+version: 1.21.0
 
 builds:
   - name: main
