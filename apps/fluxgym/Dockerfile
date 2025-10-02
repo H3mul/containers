@@ -1,5 +1,5 @@
 # From:
-# https://github.com/cocktailpeanut/fluxgym/blob/93c801d01b69f935cf29948a46000b26d0734024/Dockerfile    
+# https://github.com/cocktailpeanut/fluxgym/blob/93c801d01b69f935cf29948a46000b26d0734024/Dockerfile
 
 ARG TARGETPLATFORM
 ARG VERSION
@@ -16,13 +16,24 @@ RUN apt-get update -y && apt-get install -y \
     python3-pip \
     python3-dev \
     git \
-    build-essential  # Install dependencies for building extensions
+    build-essential \
+    curl \
+    supervisor  # Install dependencies for building extensions
 
 RUN pip install --upgrade uv
 
+# Install code-server
+RUN curl -fsSL https://code-server.dev/install.sh | sh && \
+    code-server --install-extension enkia.tokyo-night \
+                --install-extension ms-python.python
+
 # Define environment variables for UID and GID and local timezone
-ENV PUID=${PUID:-1000}
-ENV PGID=${PGID:-1000}
+ENV PUID=1000
+ENV PGID=1000
+
+ENV GRADIO_SERVER_NAME="0.0.0.0"
+ENV CODE_SERVER_PASSWORD="admin"
+ENV CODE_SERVER_PORT="8080"
 
 # Create a group with the specified GID
 RUN groupadd -g "${PGID}" appuser
@@ -47,13 +58,11 @@ RUN git clone -b sd3 https://github.com/kohya-ss/sd-scripts && \
 RUN uv pip install --system torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu122/torch_stable.html
 
 RUN chown -R appuser:appuser /app
+RUN mkdir /workspace && mv models /workspace/models && ln -s /workspace/models ./models
 
-#Run application as non-root
-USER appuser
+COPY supervisord.conf /etc/supervisord.conf
 
-EXPOSE 7860
-
-ENV GRADIO_SERVER_NAME="0.0.0.0"
+EXPOSE 7860 8080
 
 # Run fluxgym Python application
-CMD ["python3", "app.py"]
+CMD ["supervisord", "-c", "/etc/supervisord.conf"]

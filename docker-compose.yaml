@@ -31,6 +31,7 @@ services:
         VERSION: 93c801d
     ports:
       - 7860:7860
+      - 8080:8080
 
   renovate:
     image: renovate/renovate
