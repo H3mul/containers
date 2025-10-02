@@ -50,6 +50,9 @@ RUN git clone -b sd3 https://github.com/kohya-ss/sd-scripts && \
 # Install Torch, Torchvision, and Torchaudio for CUDA 12.2
 RUN uv pip install --system torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu122/torch_stable.html
 
+# https://github.com/cocktailpeanut/fluxgym/issues/464
+RUN uv pip uninstall --system transformers && uv pip install --system transformers==4.49.0
+
 COPY supervisord.conf /etc/supervisord.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
