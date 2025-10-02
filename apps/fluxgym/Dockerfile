@@ -27,18 +27,9 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
     code-server --install-extension enkia.tokyo-night \
                 --install-extension ms-python.python
 
-# Define environment variables for UID and GID and local timezone
-ENV PUID=1000
-ENV PGID=1000
-
 ENV GRADIO_SERVER_NAME="0.0.0.0"
 ENV CODE_SERVER_PASSWORD="admin"
 ENV CODE_SERVER_PORT="8080"
-
-# Create a group with the specified GID
-RUN groupadd -g "${PGID}" appuser
-# Create a user with the specified UID and GID
-RUN useradd -m -s /bin/sh -u "${PUID}" -g "${PGID}" appuser
 
 WORKDIR /app
 
@@ -57,12 +48,11 @@ RUN git clone -b sd3 https://github.com/kohya-ss/sd-scripts && \
 # Install Torch, Torchvision, and Torchaudio for CUDA 12.2
 RUN uv pip install --system torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu122/torch_stable.html
 
-RUN chown -R appuser:appuser /app
-RUN mkdir /workspace && mv models /workspace/models && ln -s /workspace/models ./models
-
 COPY supervisord.conf /etc/supervisord.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 7860 8080
 
 # Run fluxgym Python application
-CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+CMD [ "/entrypoint.sh"]
