@@ -1,0 +1,9 @@
+app: fluxgym
+
+# renovate: datasource=git-refs depName=https://github.com/cocktailpeanut/fluxgym
+version: 93c801d
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64

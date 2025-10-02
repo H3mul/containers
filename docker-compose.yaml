@@ -24,6 +24,14 @@ services:
     volumes:
       - "${PWD}/apps/vintagestory/mods.yaml:/init/mods.yaml:ro"
 
+  fluxgym:
+    build:
+      context: ./apps/fluxgym/.
+      args:
+        VERSION: 93c801d
+    ports:
+      - 7860:7860
+
   renovate:
     image: renovate/renovate
     command:
