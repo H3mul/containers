@@ -14,8 +14,8 @@ RUN set -xe && \
         openssh-server \
         python3 \
         python3-pip \
-        supervisor \
-        rsync && \
+        rsync \
+        supervisor && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt
 
