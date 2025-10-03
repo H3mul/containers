@@ -2,6 +2,8 @@ app: fluxgym
 
 # renovate: datasource=git-refs depName=https://github.com/cocktailpeanut/fluxgym
 version: 93c801d
+image:
+  registry: docker.io
 
 builds:
   - name: main
