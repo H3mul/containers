@@ -2,7 +2,14 @@
     app:  #NonEmptyString
     version: #NonEmptyString
     builds: [...#Build]
+    image?: #Image
 }
+
+#Image: {
+    registry?: #Registry
+}
+
+#Registry: "ghcr.io" | "docker.io"
 
 #Build: {
     name: #NonEmptyString
