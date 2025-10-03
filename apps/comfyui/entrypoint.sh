@@ -3,8 +3,9 @@
 set -eu
 
 if [ -d "${DATA_PATH}" ]; then
-   
-   [ -d "${DATA_PATH}/models" ] && rm -r /opt/comfyui/models && ln -s "${DATA_PATH}/models" /opt/comfyui/models
+   [ -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
+   rm -r /opt/comfyui/models && ln -s "${DATA_PATH}/models" /opt/comfyui/models
+fi
 
 if [[ $PUBLIC_KEY ]]; then
     echo "Setting up SSH..."

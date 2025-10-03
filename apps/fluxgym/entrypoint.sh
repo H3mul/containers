@@ -2,15 +2,15 @@
 
 set -eu
 
-if [ -d /workspace ]; then
-    [ ! -d /workspace/models ] || mv ./models /workspace/models
-    ln -s /workspace/models ./models
+if [ -d "${DATA_PATH}" ]; then
+    [ ! -d "${DATA_PATH}/models" ] || mv ./models "${DATA_PATH}/models"
+    ln -s "${DATA_PATH}/models" ./models
 
-    [ ! -d /workspace/fluxgym/outputs ] || mkdir -p /workspace/fluxgym/outputs
-    ln -s /workspace/fluxgym/outputs ./outputs
+    [ ! -d "${DATA_PATH}/fluxgym/outputs" ] || mkdir -p "${DATA_PATH}/fluxgym/outputs"
+    ln -s "${DATA_PATH}/fluxgym/outputs" ./outputs
 
-    [ ! -d /workspace/fluxgym/datasets ] || mkdir -p /workspace/fluxgym/datasets
-    ln -s /workspace/fluxgym/datasets ./datasets
+    [ ! -d "${DATA_PATH}/fluxgym/datasets" ] || mkdir -p "${DATA_PATH}/fluxgym/datasets"
+    ln -s "${DATA_PATH}/fluxgym/datasets" ./datasets
 fi
 
 if [[ $PUBLIC_KEY ]]; then
