@@ -24,6 +24,12 @@ services:
     volumes:
       - "${PWD}/apps/vintagestory/mods.yaml:/init/mods.yaml:ro"
 
+  comfyui:
+    build:
+      context: ./apps/comfyui/.
+      args:
+        VERSION: v0.3.62
+
   fluxgym:
     build:
       context: ./apps/fluxgym/.

@@ -2,8 +2,8 @@
 
 set -eu
 
-if [ -d /workspace ]; then
-fi
+# if [ -d /workspace ]; then
+# fi
 
 if [[ $PUBLIC_KEY ]]; then
     echo "Setting up SSH..."

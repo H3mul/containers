@@ -19,6 +19,7 @@ RUN apt-get update -y && apt-get install -y \
     git \
     build-essential \
     curl \
+    rsync \
     supervisor  # Install dependencies for building extensions
 
 RUN rm -f /etc/ssh/ssh_host_*
@@ -32,6 +33,7 @@ RUN curl -fsSL https://code-server.dev/install.sh | sh && \
 ENV GRADIO_SERVER_NAME="0.0.0.0"
 ENV CODE_SERVER_PASSWORD="admin"
 ENV CODE_SERVER_PORT="8080"
+ENV PUBLIC_KEY=""
 
 WORKDIR /app
 
