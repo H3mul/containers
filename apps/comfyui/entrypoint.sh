@@ -4,7 +4,6 @@ set -eu
 
 [ -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
 rm -r /opt/comfyui/models && ln -s "${DATA_PATH}/models" /opt/comfyui/models
-
 [ -d "${DATA_PATH}/outputs" ] || mkdir -p "${DATA_PATH}/outputs"
 rm -r /opt/comfyui/outputs && ln -s "${DATA_PATH}/outputs" /opt/comfyui/outputs
 
