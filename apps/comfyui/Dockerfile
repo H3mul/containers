@@ -14,12 +14,13 @@ RUN set -xe && \
         openssh-server \
         python3 \
         python3-pip \
+        wget \
         rsync \
         supervisor && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt
 
-RUN rm -f /etc/ssh/ssh_host_*
+RUN rm -f /etc/ssh/ssh_host_* && mkdir -p -m 0755 /run/sshd
 
 # Install Python packages globally
 RUN pip3 install --no-cache-dir --upgrade pip setuptools wheel uv
@@ -56,16 +57,13 @@ ENV \
     PYTHONUNBUFFERED=1 \
     VERSION="${VERSION}" \
     COMFYUI_PATH="/opt/comfyui" \
-    DATA_PATH="/data" \
+    DATA_PATH="/workspace" \
     PUBLIC_KEY=""
 
 # Switch to non-root user
 
 # Expose HTTP port
 EXPOSE 8188
-
-VOLUME /data
-WORKDIR /data/user
 
 COPY supervisord.conf /etc/supervisord.conf
 COPY ./entrypoint.sh /entrypoint.sh

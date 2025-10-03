@@ -2,8 +2,9 @@
 
 set -eu
 
-# if [ -d /workspace ]; then
-# fi
+if [ -d "${DATA_PATH}" ]; then
+   
+   [ -d "${DATA_PATH}/models" ] && rm -r /opt/comfyui/models && ln -s "${DATA_PATH}/models" /opt/comfyui/models
 
 if [[ $PUBLIC_KEY ]]; then
     echo "Setting up SSH..."
