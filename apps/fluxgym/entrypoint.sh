@@ -2,8 +2,8 @@
 
 set -eu
 
-[ ! -d "${DATA_PATH}/models" ] || mv /app/fluxgym/models "${DATA_PATH}/models"
-ln -s "${DATA_PATH}/models" /app/fluxgym/models
+[ ! -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
+rm -r /app/fluxgym/models && ln -s "${DATA_PATH}/models" /app/fluxgym/models
 
 [ ! -d "${DATA_PATH}/outputs" ] || mkdir -p "${DATA_PATH}/outputs"
 rm -r /app/fluxgym/outputs && ln -s "${DATA_PATH}/outputs" /app/fluxgym/outputs
