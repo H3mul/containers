@@ -15,11 +15,13 @@ RUN apt-get update -y && apt-get install -y \
     libxext6 \
     python3-pip \
     python3-dev \
+    openssh-server \
     git \
     build-essential \
     curl \
     supervisor  # Install dependencies for building extensions
 
+RUN rm -f /etc/ssh/ssh_host_*
 RUN pip install --upgrade uv
 
 # Install code-server
