@@ -57,7 +57,7 @@ ENV \
     PYTHONUNBUFFERED=1 \
     VERSION="${VERSION}" \
     COMFYUI_PATH="/opt/comfyui" \
-    DATA_PATH="/workspace" \
+    DATA_PATH="/workspace/comfyui" \
     PUBLIC_KEY=""
 
 # Switch to non-root user

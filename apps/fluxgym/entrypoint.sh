@@ -2,16 +2,14 @@
 
 set -eu
 
-if [ -d "${DATA_PATH}" ]; then
-    [ ! -d "${DATA_PATH}/models" ] || mv ./models "${DATA_PATH}/models"
-    ln -s "${DATA_PATH}/models" ./models
+[ ! -d "${DATA_PATH}/models" ] || mv /app/fluxgym/models "${DATA_PATH}/models"
+ln -s "${DATA_PATH}/models" /app/fluxgym/models
 
-    [ ! -d "${DATA_PATH}/fluxgym/outputs" ] || mkdir -p "${DATA_PATH}/fluxgym/outputs"
-    ln -s "${DATA_PATH}/fluxgym/outputs" ./outputs
+[ ! -d "${DATA_PATH}/outputs" ] || mkdir -p "${DATA_PATH}/outputs"
+rm -r /app/fluxgym/outputs && ln -s "${DATA_PATH}/outputs" /app/fluxgym/outputs
 
-    [ ! -d "${DATA_PATH}/fluxgym/datasets" ] || mkdir -p "${DATA_PATH}/fluxgym/datasets"
-    ln -s "${DATA_PATH}/fluxgym/datasets" ./datasets
-fi
+[ ! -d "${DATA_PATH}/datasets" ] || mkdir -p "${DATA_PATH}/datasets"
+rm -r /app/fluxgym/datasets && ln -s "${DATA_PATH}/datasets" /app/fluxgym/datasets
 
 if [[ $PUBLIC_KEY ]]; then
     echo "Setting up SSH..."
