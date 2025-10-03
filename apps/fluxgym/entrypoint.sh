@@ -34,6 +34,7 @@ if [[ $PUBLIC_KEY ]]; then
     fi
 
     echo "SSH host keys:"
+
     cat /etc/ssh/*.pub
 fi
 
