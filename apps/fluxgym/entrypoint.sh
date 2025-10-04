@@ -9,7 +9,8 @@ echo "Linking data directories from ${APP_DIR} to ${DATA_PATH}: ${link_dirs[*]}"
 
 for dir in "${link_dirs[@]}"; do
     [ -d "${DATA_PATH}/${dir}" ] || mkdir -p "${DATA_PATH}/${dir}"
-    rm -r "${APP_DIR}/${dir}" && ln -s "${DATA_PATH}/${dir}" "${APP_DIR}/${dir}"
+    [ -d "${APP_DIR}/${dir}" ] && rm -r "${APP_DIR}/${dir}"
+    ln -s "${DATA_PATH}/${dir}" "${APP_DIR}/${dir}"
 done
 
 if [[ $PUBLIC_KEY ]]; then

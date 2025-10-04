@@ -22,7 +22,7 @@ RUN apt-get update -y && apt-get install -y \
     rsync \
     supervisor  # Install dependencies for building extensions
 
-RUN rm -f /etc/ssh/ssh_host_*
+RUN rm -f /etc/ssh/ssh_host_* && mkdir -p -m 0755 /run/sshd
 RUN pip install --upgrade uv
 
 # Install code-server
