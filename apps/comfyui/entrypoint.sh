@@ -2,10 +2,15 @@
 
 set -eu
 
-[ -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
-rm -r /opt/comfyui/models && ln -s "${DATA_PATH}/models" /opt/comfyui/models
-[ -d "${DATA_PATH}/output" ] || mkdir -p "${DATA_PATH}/output"
-rm -r /opt/comfyui/output && ln -s "${DATA_PATH}/output" /opt/comfyui/output
+APP_DIR=/opt/comfyui
+link_dirs=( "models" "output" "user" )
+
+echo "Linking data directories from ${APP_DIR} to ${DATA_PATH}: ${link_dirs[*]}"
+
+for dir in "${link_dirs[@]}"; do
+    [ -d "${DATA_PATH}/${dir}" ] || mkdir -p "${DATA_PATH}/${dir}"
+    rm -r "${APP_DIR}/${dir}" && ln -s "${DATA_PATH}/${dir}" "${APP_DIR}/${dir}"
+done
 
 if [[ $PUBLIC_KEY ]]; then
     echo "Setting up SSH..."

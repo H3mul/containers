@@ -2,14 +2,15 @@
 
 set -eu
 
-[ -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
-rm -r /app/fluxgym/models && ln -s "${DATA_PATH}/models" /app/fluxgym/models
+APP_DIR=/app/fluxgym
+link_dirs=( "models" "outputs" "datasets" )
 
-[ -d "${DATA_PATH}/outputs" ] || mkdir -p "${DATA_PATH}/outputs"
-rm -r /app/fluxgym/outputs && ln -s "${DATA_PATH}/outputs" /app/fluxgym/outputs
+echo "Linking data directories from ${APP_DIR} to ${DATA_PATH}: ${link_dirs[*]}"
 
-[ -d "${DATA_PATH}/datasets" ] || mkdir -p "${DATA_PATH}/datasets"
-rm -r /app/fluxgym/datasets && ln -s "${DATA_PATH}/datasets" /app/fluxgym/datasets
+for dir in "${link_dirs[@]}"; do
+    [ -d "${DATA_PATH}/${dir}" ] || mkdir -p "${DATA_PATH}/${dir}"
+    rm -r "${APP_DIR}/${dir}" && ln -s "${DATA_PATH}/${dir}" "${APP_DIR}/${dir}"
+done
 
 if [[ $PUBLIC_KEY ]]; then
     echo "Setting up SSH..."
@@ -34,7 +35,6 @@ if [[ $PUBLIC_KEY ]]; then
     fi
 
     echo "SSH host keys:"
-
     cat /etc/ssh/*.pub
 fi
 
