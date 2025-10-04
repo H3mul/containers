@@ -2,13 +2,13 @@
 
 set -eu
 
-[ ! -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
+[ -d "${DATA_PATH}/models" ] || mkdir -p "${DATA_PATH}/models"
 rm -r /app/fluxgym/models && ln -s "${DATA_PATH}/models" /app/fluxgym/models
 
-[ ! -d "${DATA_PATH}/outputs" ] || mkdir -p "${DATA_PATH}/outputs"
+[ -d "${DATA_PATH}/outputs" ] || mkdir -p "${DATA_PATH}/outputs"
 rm -r /app/fluxgym/outputs && ln -s "${DATA_PATH}/outputs" /app/fluxgym/outputs
 
-[ ! -d "${DATA_PATH}/datasets" ] || mkdir -p "${DATA_PATH}/datasets"
+[ -d "${DATA_PATH}/datasets" ] || mkdir -p "${DATA_PATH}/datasets"
 rm -r /app/fluxgym/datasets && ln -s "${DATA_PATH}/datasets" /app/fluxgym/datasets
 
 if [[ $PUBLIC_KEY ]]; then
