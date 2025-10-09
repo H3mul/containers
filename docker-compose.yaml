@@ -44,8 +44,15 @@ services:
     command:
       - "renovate"
       - "--platform=local"
+
     environment:
       LOG_LEVEL: debug
     working_dir: /renovate
     volumes:
       - ${PWD}:/renovate
+
+  mysql-init:
+    build:
+      context: ./apps/mysql-init/.
+      args:
+        VERSION: 11.4.8-r0
