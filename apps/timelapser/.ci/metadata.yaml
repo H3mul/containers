@@ -1,0 +1,11 @@
+app: timelapser
+
+version: v0.1.0
+
+image:
+  registry: ghcr.io
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64

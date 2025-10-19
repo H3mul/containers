@@ -56,3 +56,11 @@ services:
       context: ./apps/mysql-init/.
       args:
         VERSION: 11.4.8-r0
+
+  timelapser:
+    build:
+      context: ./apps/timelapser/.
+    environment:
+      PERIOD_DAYS: 7
+      INPUT_DIR: /input
+      OUTPUT_DIR: /output
