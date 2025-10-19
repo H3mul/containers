@@ -1,4 +1,6 @@
-set -euo pipefail
+#!/bin/sh
+
+set -eu
 
 # Check required environment variables
 if [ -z "$INPUT_DIR" ]; then
@@ -8,9 +10,6 @@ fi
 
 if [ ! -d "$INPUT_DIR" ]; then
 echo "ERROR: INPUT_DIR does not exist or is not a directory"
-exit 1
-fi
-echo "ERROR: INPUT_DIR environment variable is required"
 exit 1
 fi
 
@@ -33,7 +32,8 @@ START_DATE=$(date -d "@$(($(date +%s) - PERIOD_DAYS * 86400))" +%Y%m%d 2>/dev/nu
 echo "Processing images from $START_DATE to $END_DATE"
 
 # Create temporary directory for filtered images
-TEMP_DIR=$(mktemp -d timelapse.XXXXXX)
+TEMP_DIR=/tmp/timelapse
+mkdir -p "$TEMP_DIR"
 
 # Find and copy images from the specified period
 COPIED_COUNT=0
@@ -81,7 +81,7 @@ done < filelist.txt
 ffmpeg -f concat -safe 0 -i concat_list.txt \
     -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=30" \
     -c:v libx264 -pix_fmt yuv420p -crf 23 \
-    -movflags +faststart \
+    -movflags +faststart -y \
     "$OUTPUT_FILE"
 
 echo "Timelapse created successfully: $OUTPUT_FILE"
@@ -97,3 +97,5 @@ echo "Cleanup completed"
 else
 echo "No images found in the specified date range"
 fi
+
+exec "$@"
