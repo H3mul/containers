@@ -37,11 +37,14 @@ mkdir -p "$TEMP_DIR"
 
 # Find and copy images from the specified period
 COPIED_COUNT=0
-for img in "$INPUT_DIR"/*_[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9].jpg; do
+
+echo "Collecting matching images into $TEMP_DIR"
+echo "Executing: find \"$INPUT_DIR\" -type f -regextype posix-basic -regex \"$DATETIME_REGEX\""
+for img in $(find "$INPUT_DIR" -type f -regextype posix-basic -regex "$DATETIME_REGEX"); do
 if [ -f "$img" ]; then
-    # Extract date from filename (format: *_YYYYMMDD-HHMMSS.jpg)
+    # Extract date from filename using the same regex
     FILENAME=$(basename "$img")
-    DATE_PART=$(echo "$FILENAME" | sed -n 's/.*_\([0-9]\{8\}\)-[0-9]\{6\}\.jpg$/\1/p')
+    DATE_PART=$(echo "$FILENAME" | sed -n "s/$DATETIME_REGEX/\1/p")
     
     if [ ! -z "$DATE_PART" ] && [ "$DATE_PART" -ge "$START_DATE" ] && [ "$DATE_PART" -le "$END_DATE" ]; then
     cp "$img" "$TEMP_DIR/"
@@ -67,7 +70,7 @@ echo "Creating timelapse video: $OUTPUT_FILE"
 # -pattern_type glob: use glob pattern for input
 # -f concat: concatenate input files
 # -safe 0: allow unsafe file paths
-# -r 30: output framerate (30 fps)
+# -vf ... fps=${FPS}: output framerate (${FPS} fps)
 # -vf scale=1920:1080: scale to 1080p
 # -c:v libx264: use H.264 codec
 # -pix_fmt yuv420p: pixel format for compatibility
@@ -79,7 +82,7 @@ while read filename; do
 done < filelist.txt
 
 ffmpeg -f concat -safe 0 -i concat_list.txt \
-    -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=30" \
+    -vf "scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2,fps=${FPS}" \
     -c:v libx264 -pix_fmt yuv420p -crf 23 \
     -movflags +faststart -y \
     "$OUTPUT_FILE"
