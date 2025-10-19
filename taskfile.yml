@@ -1,0 +1,26 @@
+version: '3'
+
+tasks:
+  create-app:
+    desc: Create a new app directory with Dockerfile and CI skeleton
+    preconditions:
+      - sh: test ! -z "{{.appname}}"
+        msg: "appname cannot be empty"
+    cmds:
+      - mkdir -p apps/{{.appname}}
+      - mkdir -p apps/{{.appname}}/.ci
+      - touch apps/{{.appname}}/Dockerfile
+      - |
+        cat > apps/{{.appname}}/.ci/metadata.yaml <<EOF
+        app: {{.appname}}
+
+        version: v0.1.0
+
+        image:
+          registry: docker.io
+
+        builds:
+          - name: main
+            platforms:
+              - linux/amd64
+        EOF
