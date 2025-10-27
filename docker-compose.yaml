@@ -64,3 +64,14 @@ services:
       PERIOD_DAYS: 7
       INPUT_DIR: /input
       OUTPUT_DIR: /output
+
+  notion-exporter:
+    build:
+      context: ./apps/notion-exporter/.
+    environment:
+      NOTION_TOKEN: ${NOTION_TOKEN}
+      NOTION_FILE_TOKEN: ${NOTION_FILE_TOKEN}
+      NOTION_BLOCK_ID: ${NOTION_BLOCK_ID}
+      OUTPUT_DIR: "/data"
+    volumes:
+      - ./apps/notion-exporter/test-data:/data

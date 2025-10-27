@@ -1,0 +1,12 @@
+app: notion-exporter
+
+# renovate: datasource=npm depName=notion-exporter
+version: v0.8.0
+
+image:
+  registry: docker.io
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64
