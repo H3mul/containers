@@ -17,7 +17,7 @@ tasks:
         version: v0.1.0
 
         image:
-          registry: docker.io
+          registry: ghcr.io
 
         builds:
           - name: main

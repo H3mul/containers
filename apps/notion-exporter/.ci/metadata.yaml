@@ -4,7 +4,7 @@ app: notion-exporter
 version: v0.8.0
 
 image:
-  registry: docker.io
+  registry: ghcr.io
 
 builds:
   - name: main
