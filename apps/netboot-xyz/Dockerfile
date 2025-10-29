@@ -58,5 +58,5 @@ RUN [ ! -z ${BOOT_DOMAIN} ] && \
 
 RUN ansible-playbook site.yml -i inventory
 
-FROM nginx:1.29-alpine@sha256:61e01287e546aac28a3f56839c136b31f590273f3b41187a36f46f6a03bbfe22
+FROM nginx:1.29-alpine@sha256:756e5cea3fcf99e6a63f97ab9196032fe8403070d2724388541ef917c62e13ba
 COPY --from=0 /output /usr/share/nginx/html
