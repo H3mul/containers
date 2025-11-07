@@ -1,5 +1,5 @@
 # FROM jrottenberg/ffmpeg:7.1-alpine
-FROM linuxserver/ffmpeg:version-8.0-cli@sha256:053970615c3b200898e34ece30d4064a071f74aefc694d7782ffcccd761d2a65
+FROM linuxserver/ffmpeg:version-8.0-cli@sha256:c0d0182939986c52bd2ab96e2686890d537970e8da5f4c04745f372ef0e1e70a
 
 
 ENV PERIOD_DAYS=7 \
