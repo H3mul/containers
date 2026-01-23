@@ -1,4 +1,4 @@
-FROM nvidia/cuda:13.1.0-base-ubuntu22.04@sha256:d4cf794c38cda3f1213864d1c8a58654f2e8f67100734be9c44f89f66b726618
+FROM nvidia/cuda:13.1.1-base-ubuntu22.04@sha256:188e4f48ce1db89a86cb5085d3c009819588a38c91b3c74c91e9bb39bc603c4d
 
 # Prevent interactive prompts during build
 ENV DEBIAN_FRONTEND=noninteractive
