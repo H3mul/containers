@@ -1,7 +1,7 @@
 app: comfyui
 
 # renovate: datasource=github-releases depName=comfyanonymous/ComfyUI
-version: v0.10.0
+version: v0.11.0
 
 image:
   registry: docker.io
