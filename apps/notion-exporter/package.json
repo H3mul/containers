@@ -1,8 +1,9 @@
 {
+  "type": "module",
   "scripts": {
     "start": "node notion-export.js"
   },
   "dependencies": {
-    "notion-exporter": "^0.8.1"
+    "notion-exporter": "0.8.1"
   }
 }
