@@ -3,6 +3,6 @@
     "start": "node notion-export.js"
   },
   "dependencies": {
-    "notion-exporter": "^0.8.0"
+    "notion-exporter": "^0.8.1"
   }
 }

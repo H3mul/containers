@@ -1,5 +1,4 @@
-const notionExporterModule = require("notion-exporter");
-const NotionExporter = notionExporterModule.default;
+import { NotionExporter } from "notion-exporter";
 
 const fetchEnv = (envName) => {
   const variable = process.env[envName]?.trim();
