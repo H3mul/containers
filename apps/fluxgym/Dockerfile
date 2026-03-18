@@ -6,7 +6,7 @@ ARG VERSION
 ARG CHANNEL
 
 # Base image with CUDA 12.2
-FROM nvidia/cuda:13.1.1-base-ubuntu22.04@sha256:188e4f48ce1db89a86cb5085d3c009819588a38c91b3c74c91e9bb39bc603c4d
+FROM nvidia/cuda:13.2.0-base-ubuntu22.04@sha256:350351676753fb2874f2c861ab7a797633575dd004ed89523c9a762c6e2cdc2e
 
 # Install pip if not already installed
 RUN apt-get update -y && apt-get install -y \
