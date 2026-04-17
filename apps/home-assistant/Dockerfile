@@ -3,7 +3,7 @@
 
 
 
-FROM docker.io/library/python:3.14.4-alpine@sha256:e9895f97d51458a5039acc5e622e0ffda5f3eface7603803443d3f9f51bb7ab9
+FROM docker.io/library/python:3.14.4-alpine@sha256:dd4d2bd5b53d9b25a51da13addf2be586beebd5387e289e798e4083d94ca837a
 ARG TARGETPLATFORM
 ARG VERSION
 ARG CHANNEL
