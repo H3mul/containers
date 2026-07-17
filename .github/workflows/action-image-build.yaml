@@ -103,7 +103,20 @@ jobs:
 
       - name: Validate image metadata
         shell: bash
-        run: cue vet --schema '#Spec' ${metadata_file} ./metadata.rules.cue
+        run: |-
+          set -xeEo pipefail
+          metadata_file="./apps/${{ matrix.image.app }}/.ci/metadata.yaml"
+          # cue 0.17's --schema flag rejects CUE input files, so generate a
+          # CUE file that unifies the YAML metadata with the #Spec schema and
+          # validate that instead. Both files live in the repo root so they
+          # share the default package and #Spec is in scope.
+          {
+            echo 'metadata: #Spec & {'
+            cue import -o - "${metadata_file}" | grep -v '^package '
+            echo '}'
+          } > ./metadata_check.cue
+          cue vet ./metadata_check.cue ./metadata.rules.cue
+          rm -f ./metadata_check.cue
 
       - name: Setup Docker Buildx
         id: buildx
