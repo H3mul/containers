@@ -1,0 +1,11 @@
+app: open-stage-control
+
+version: 1.30.4
+
+image:
+  registry: ghcr.io
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64
