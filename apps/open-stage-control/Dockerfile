@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim AS downloader
+FROM debian:bookworm-slim@sha256:abd67ffcfa541b485a3dff59865ab629aa048a6c613e639d36e7456b0b229241 AS downloader
 
 ARG OPEN_STAGE_CONTROL_VERSION=1.30.3
 ARG OPEN_STAGE_CONTROL_BASE_URL=https://openstagecontrol.ammd.net/packages
@@ -14,7 +14,7 @@ RUN curl -fsSLo open-stage-control.zip \
     && unzip -q open-stage-control.zip -d extracted \
     && mv extracted/open-stage-control_${OPEN_STAGE_CONTROL_VERSION}_node /open-stage-control
 
-FROM node:20-bookworm-slim
+FROM node:20-bookworm-slim@sha256:2cf067cfed83d5ea958367df9f966191a942351a2df77d6f0193e162b5febfc0
 
 LABEL org.opencontainers.image.title="Open Stage Control"
 LABEL org.opencontainers.image.description="Container image for the Open Stage Control node-only release"
