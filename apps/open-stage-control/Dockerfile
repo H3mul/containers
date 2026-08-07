@@ -22,8 +22,9 @@ LABEL org.opencontainers.image.source="https://framagit.org/jean-emmanuel/open-s
 
 ENV OSC_PORT=8080
 ENV OSC_OSC_PORT=8080
-ENV OSC_CACHE_DIR=/config
+ENV OSC_CACHE_DIR=/cache
 ENV OSC_REMOTE_ROOT=/data
+ENV OSC_SEND=""
 
 WORKDIR /opt
 

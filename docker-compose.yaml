@@ -75,3 +75,7 @@ services:
       OUTPUT_DIR: "/data"
     volumes:
       - ./apps/notion-exporter/test-data:/data
+
+  osc:
+    build:
+      context: ./apps/open-stage-control/.

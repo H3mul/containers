@@ -4,7 +4,7 @@ set -eu
 set -- \
   node /opt/open-stage-control \
   --no-gui \
-  --cache-dir "${OSC_CACHE_DIR:-/config}" \
+  --cache-dir "${OSC_CACHE_DIR:-/cache}" \
   --remote-root "${OSC_REMOTE_ROOT:-/data}" \
   --port "${OSC_PORT:-8080}" \
   --osc-port "${OSC_OSC_PORT:-${OSC_PORT:-8080}}"
@@ -35,6 +35,10 @@ fi
 
 if [ -n "${OSC_AUTHENTICATION:-}" ]; then
   set -- "$@" --authentication "${OSC_AUTHENTICATION}"
+fi
+
+if [ -n "${OSC_SEND:-}" ]; then
+  set -- "$@" --send "${OSC_SEND}"
 fi
 
 if [ "${OSC_READ_ONLY:-false}" = "true" ]; then
