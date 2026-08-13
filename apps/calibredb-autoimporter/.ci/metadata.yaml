@@ -1,0 +1,12 @@
+app: calibredb-autoimporter
+
+# renovate: datasource=github-releases depName=kovidgoyal/calibre
+version: v9.13.0
+
+image:
+  registry: ghcr.io
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64

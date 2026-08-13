@@ -79,3 +79,9 @@ services:
   osc:
     build:
       context: ./apps/open-stage-control/.
+
+  calibredb-autoimporter:
+    build:
+      context: ./apps/calibredb-autoimporter/.
+      args:
+        VERSION: v9.13.0
