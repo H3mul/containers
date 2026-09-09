@@ -6,7 +6,7 @@ FROM ubuntu:26.04@sha256:2260313b31c8c011cd2eebe728008efac1b3982be73eb71348ea264
 ENV DEBIAN_FRONTEND=noninteractive
 
 # renovate: datasource=pypi depName=ansible
-ARG ANSIBLE_VERSION=14.3.1
+ARG ANSIBLE_VERSION=14.4.0
 
 RUN \
     apt-get update && \
