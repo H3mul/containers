@@ -14,7 +14,7 @@ RUN curl -fsSLo open-stage-control.zip \
     && unzip -q open-stage-control.zip -d extracted \
     && mv extracted/open-stage-control_${OPEN_STAGE_CONTROL_VERSION}_node /open-stage-control
 
-FROM node:24-bookworm-slim@sha256:ba849c60be29959425b8734d57b8b4b7d56f98edd9504c9af091d5281095a71e
+FROM node:24-bookworm-slim@sha256:2fe369e969550cde8e867afc3fe370b260140cab4a23d467074295b42163d553
 
 LABEL org.opencontainers.image.title="Open Stage Control"
 LABEL org.opencontainers.image.description="Container image for the Open Stage Control node-only release"
