@@ -1,7 +1,7 @@
 app: notion-exporter
 
 # renovate: datasource=npm depName=notion-exporter
-version: 0.8.1
+version: 0.9.1
 
 image:
   registry: ghcr.io

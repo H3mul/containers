@@ -66,6 +66,7 @@ services:
       OUTPUT_DIR: /output
 
   notion-exporter:
+    env_file: ./apps/notion-exporter/.env
     build:
       context: ./apps/notion-exporter/.
     environment:

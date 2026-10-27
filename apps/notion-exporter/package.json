@@ -1,14 +1,18 @@
 {
   "type": "module",
   "scripts": {
-    "start": "node notion-export.js"
+    "start": "node --env-file=.env dist/notion-export.js",
+    "build": "tsc"
   },
   "dependencies": {
-    "notion-exporter": "0.8.1"
+    "notion-exporter": "0.9.1"
   },
   "overrides": {
-    "axios": ">=1.15.0",
     "adm-zip": ">=0.6.0",
     "uuid": ">=11.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
   }
 }
