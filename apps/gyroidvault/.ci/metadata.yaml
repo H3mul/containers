@@ -1,0 +1,13 @@
+app: gyroidvault
+
+# Image tag/label version: tracks the upstream GitHub release. The code built is the fork's main branch (see Dockerfile).
+# renovate: datasource=github-releases depName=TeeCodeDev/GyroidVault
+version: v2.5.0
+
+image:
+  registry: ghcr.io
+
+builds:
+  - name: main
+    platforms:
+      - linux/amd64

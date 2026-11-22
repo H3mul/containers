@@ -1,0 +1,80 @@
+name: "Rebuild gyroidvault when fork main changes"
+
+# apps/gyroidvault/Dockerfile builds the fork's main branch, which build-images.yaml cannot see (it only reacts to
+# pushes to this repo). Poll the fork instead, and only build when its main commit differs from the last one built,
+# so an idle fork does not republish an identical image under a new digest.
+#
+# Faster alternative: have the fork post `repository_dispatch` (type gyroidvault-main-updated) on push to main.
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Rebuild even if fork main is unchanged"
+        type: boolean
+        default: false
+  repository_dispatch:
+    types: [gyroidvault-main-updated]
+
+concurrency:
+  group: gyroidvault-main
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Has fork main changed?
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.sha.outputs.sha }}
+      build: ${{ steps.decide.outputs.build }}
+    steps:
+      - name: Resolve fork main
+        id: sha
+        run: |
+          sha=$(git ls-remote https://github.com/H3mul/GyroidVault.git refs/heads/main | cut -f1)
+          test -n "${sha}"
+          echo "sha=${sha}" >> "$GITHUB_OUTPUT"
+
+      - name: Look up the last built commit
+        id: marker
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .gyroidvault-built
+          key: gyroidvault-main-${{ steps.sha.outputs.sha }}
+          lookup-only: true
+
+      - name: Decide
+        id: decide
+        run: |
+          if [ "${{ inputs.force }}" = "true" ] || [ "${{ steps.marker.outputs.cache-hit }}" != "true" ]; then
+            echo "build=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "build=false" >> "$GITHUB_OUTPUT"
+            echo "fork main ${{ steps.sha.outputs.sha }} already built, skipping"
+          fi
+
+  build:
+    name: Build image
+    needs: ["check"]
+    if: ${{ needs.check.outputs.build == 'true' }}
+    uses: ./.github/workflows/action-image-build.yaml
+    with:
+      imagesToBuild: '[{"app":"gyroidvault","build":"main"}]'
+      pushImages: "true"
+    secrets: inherit
+
+  mark:
+    name: Record built commit
+    needs: ["check", "build"]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Write marker
+        run: echo "${{ needs.check.outputs.sha }}" > .gyroidvault-built
+
+      - name: Save marker
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: .gyroidvault-built
+          key: gyroidvault-main-${{ needs.check.outputs.sha }}

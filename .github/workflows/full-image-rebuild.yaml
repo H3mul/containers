@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/**"
       - "!.github/workflows/renovate.yaml"
+      - "!.github/workflows/build-gyroidvault.yaml"
       - "!.github/renovate.json5"
       - "metadata.rules.cue"
 
